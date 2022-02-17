@@ -1,0 +1,341 @@
+
+import java.time.Duration;
+import java.time.temporal.ChronoUnit;
+import java.util.Collection;
+import java.util.EnumMap;
+import java.util.HashMap;
+import java.util.Set;
+
+public class FalconNineAnimator implements Animator {
+    private Spaceship drawable;
+    private double vel;
+    private double accel;
+    private double alt;
+
+    private Duration time;
+    private double mass;
+    private double netForce;
+    private double frontalArea;
+    private Duration dT;
+    private EnumMap values;
+    /** @deprecated */
+    @Deprecated
+
+    private static EnumMap defaultMasses = (EnumMap)(new EnumMap(FalconNineAnimator.Masses.class) {
+        {
+            this.put((Enum)FalconNineAnimator.Masses.PHASE_1_STARTING, 541300.0D);
+            this.put((Enum)FalconNineAnimator.Masses.PHASE_1_ENDING, 142400.0D);
+            this.put((Enum)FalconNineAnimator.Masses.PHASE_1_FUEL, 398900.0D);
+            this.put((Enum)FalconNineAnimator.Masses.PHASE_1_THRUST, 6806000.0D);
+            this.put((Enum)FalconNineAnimator.Masses.PHASE_1_ENDING_TIME, 162.0D);
+            this.put((Enum)FalconNineAnimator.Masses.PHASE_2_STARTING, 96570.0D);
+            this.put((Enum)FalconNineAnimator.Masses.PHASE_2_ENDING, 3900.0D);
+            this.put((Enum)FalconNineAnimator.Masses.PHASE_2_FUEL, 92670.0D);
+            this.put((Enum)FalconNineAnimator.Masses.PHASE_2_FUEL, 934000.0D);
+            this.put((Enum)FalconNineAnimator.Masses.PHASE_2_ENDING_TIME, 397.0D);
+        }
+
+        // $FF: bridge method
+        public Double remove(FalconNineAnimator.Masses var1) {
+            return (Double)super.remove(var1);
+        }
+
+        // $FF: bridge method
+        public Object remove(Object var1) {
+            return (var1 != null ? var1 instanceof FalconNineAnimator.Masses : true) ? this.remove((FalconNineAnimator.Masses)var1) : null;
+        }
+
+        // $FF: bridge method
+        public boolean remove(FalconNineAnimator.Masses var1, Double var2) {
+            return super.remove(var1, var2);
+        }
+
+        // $FF: bridge method
+        public boolean remove(Object var1, Object var2) {
+            return (var1 != null ? var1 instanceof FalconNineAnimator.Masses : true) && (var2 != null ? var2 instanceof Double : true) ? this.remove((FalconNineAnimator.Masses)var1, (Double)var2) : false;
+        }
+
+        // $FF: bridge method
+        public boolean containsKey(FalconNineAnimator.Masses var1) {
+            return super.containsKey(var1);
+        }
+
+        // $FF: bridge method
+        public boolean containsKey(Object var1) {
+            return (var1 != null ? var1 instanceof FalconNineAnimator.Masses : true) ? this.containsKey((FalconNineAnimator.Masses)var1) : false;
+        }
+
+        // $FF: bridge method
+        public boolean containsValue(Double var1) {
+            return super.containsValue(var1);
+        }
+
+        // $FF: bridge method
+        public boolean containsValue(Object var1) {
+            return (var1 != null ? var1 instanceof Double : true) ? this.containsValue((Double)var1) : false;
+        }
+
+        // $FF: bridge method
+        public Double get(FalconNineAnimator.Masses var1) {
+            return (Double)super.get(var1);
+        }
+
+        // $FF: bridge method
+        public Object get(Object var1) {
+            return (var1 != null ? var1 instanceof FalconNineAnimator.Masses : true) ? this.get((FalconNineAnimator.Masses)var1) : null;
+        }
+
+        // $FF: bridge method
+        public Double getOrDefault(FalconNineAnimator.Masses var1, Double var2) {
+            return (Double)super.getOrDefault(var1, var2);
+        }
+
+        // $FF: bridge method
+        public Object getOrDefault(Object var1, Object var2) {
+            return (var1 != null ? var1 instanceof FalconNineAnimator.Masses : true) ? this.getOrDefault((FalconNineAnimator.Masses)var1, (Double)var2) : var2;
+        }
+
+        // $FF: bridge method
+        public int getSize() {
+            return super.size();
+        }
+
+        // $FF: bridge method
+        public int size() {
+            return this.getSize();
+        }
+
+        // $FF: bridge method
+        public Collection getValues() {
+            return super.values();
+        }
+
+        // $FF: bridge method
+        public Collection values() {
+            return this.getValues();
+        }
+
+        // $FF: bridge method
+        public Set getEntries() {
+            return super.entrySet();
+        }
+
+        // $FF: bridge method
+        public Set entrySet() {
+            return this.getEntries();
+        }
+
+        // $FF: bridge method
+        public Set getKeys() {
+            return super.keySet();
+        }
+
+        // $FF: bridge method
+        public Set keySet() {
+            return this.getKeys();
+        }
+    });
+
+    private static FalconNineAnimator.Companion Companion = new FalconNineAnimator.Companion((Object)null);
+
+    public double getVel() {
+        return this.vel;
+    }
+
+    public void setVel(double var1) {
+        this.vel = var1;
+    }
+
+    public double getAccel() {
+        return this.accel;
+    }
+
+    public void setAccel(double var1) {
+        this.accel = var1;
+    }
+
+    public double getAlt() {
+        return this.alt;
+    }
+
+    public void setAlt(double var1) {
+        this.alt = var1;
+    }
+
+
+    public Duration getTime() {
+        return this.time;
+    }
+
+    public void setTime( Duration var1) {
+        this.time = var1;
+    }
+
+    public double getMass() {
+        return this.mass;
+    }
+
+    public void setMass(double var1) {
+        this.mass = var1;
+    }
+
+    public double getNetForce() {
+        return this.netForce;
+    }
+
+    public void setNetForce(double var1) {
+        this.netForce = var1;
+    }
+
+    public int getStage() {
+        double var10000 = (double)this.time.getSeconds();
+        Object var10001 = this.values.get(FalconNineAnimator.Masses.PHASE_1_ENDING_TIME);
+        return Double.compare(var10000, ((Number)var10001).doubleValue()) > 0 ? 2 : 1;
+    }
+
+
+    public Drawable getDrawable( HashMap params) {
+        long sec = this.time.getSeconds();
+        double var10000 = (double)this.time.getSeconds();
+        Object var10001 = this.values.get(FalconNineAnimator.Masses.PHASE_2_ENDING_TIME);
+        if (Double.compare(var10000, ((Number)var10001).doubleValue()) > 0) {
+            return (Drawable)this.drawable;
+        } else {
+            double thrust = 0.0D;
+            double fuel = 0.0D;
+            double fG;
+            Double var16;
+            switch(this.getStage()) {
+                case 1:
+                    var16 = (Double)this.values.get(FalconNineAnimator.Masses.PHASE_1_STARTING);
+                    if (var16 == null) {
+                        var16 = 541300.0D;
+                    }
+
+                    fG = var16;
+                    var16 = (Double)this.values.get(FalconNineAnimator.Masses.PHASE_1_FUEL);
+                    fuel = var16 != null ? var16 : 398900.0D;
+                    var16 = (Double)this.values.get(FalconNineAnimator.Masses.PHASE_1_THRUST);
+                    thrust = var16 != null ? var16 : 6806000.0D;
+                    this.mass = fG - fuel / (double)162 * (double)sec;
+                    break;
+                case 2:
+                    var16 = (Double)this.values.get(FalconNineAnimator.Masses.PHASE_2_STARTING);
+                    if (var16 == null) {
+                        var16 = 96570.0D;
+                    }
+
+                    fG = var16;
+                    var16 = (Double)this.values.get(FalconNineAnimator.Masses.PHASE_2_FUEL);
+                    fuel = var16 != null ? var16 : 92670.0D;
+                    var16 = (Double)this.values.get(FalconNineAnimator.Masses.PHASE_2_THRUST);
+                    thrust = var16 != null ? var16 : 934000.0D;
+                    this.mass = fG - fuel / (double)235 * ((double)sec - (double)162);
+            }
+
+            if ((double)sec > (double)162) {
+                this.mass = fuel - fuel / (double)235 * ((double)sec - (double)162);
+            }
+
+            var10000 = this.mass * 6.67E-11D * 5.978E24D;
+            double fD = 6380000.0D + this.alt;
+            double var12 = 2.0D;
+            fG = var10000 / Math.pow(fD, var12);
+            var10000 = 0.1475D * this.frontalArea * Companion.getDensity(this.alt);
+            var12 = this.vel;
+            double var14 = 2.0D;
+            fD = var10000 * Math.pow(var12, var14);
+            this.netForce = thrust - fG - fD;
+            this.accel = this.netForce / this.mass;
+            this.vel += this.accel * (double)this.dT.toNanos() / 1.0E9D;
+            this.alt += this.vel * (double)this.dT.toNanos() / 1.0E9D;
+            Duration var17 = this.time.plus(this.dT);
+            this.time = var17;
+            Spaceship var19 = this.drawable;
+            var10001 = params.get("HEIGHT");
+            if (var10001 == null) {
+                throw new NullPointerException("null cannot be cast to non-null type kotlin.Int");
+            } else {
+                double var18 = (double)var10001;
+                double var10002 = this.alt;
+                Object var10003 = params.get("HEIGHT");
+                if (var10003 == null) {
+                    throw new NullPointerException("null cannot be cast to non-null type kotlin.Int");
+                } else {
+                    var19.setY(var18 - var10002 * (double)var10003 / 400000.0D - (double)this.drawable.getHeight());
+                    return (Drawable)this.drawable;
+                }
+            }
+        }
+    }
+
+    public FalconNineAnimator(int x, int y, int width, int height,  Duration dT,  EnumMap values) {
+        super();
+        this.dT = dT;
+        this.values = values;
+        this.drawable = new Spaceship();
+        this.drawable.setX((double)x);
+        this.drawable.setY((double)y);
+        this.drawable.setWidth(width);
+        this.drawable.setHeight(height);
+        Duration var10001 = Duration.ZERO;
+        this.time = var10001;
+        double var7 = (double)this.drawable.getWidth();
+        double var9 = 2.0D;
+        this.frontalArea = Math.pow(var7, var9);
+    }
+
+    // $FF: synthetic method
+    public FalconNineAnimator(int var1, int var2, int var3, int var4, Duration var5, EnumMap var6, int var7, Object var8) {
+        this(
+            ((var7 & 1) != 0)? 0 : var1,
+            ((var7 & 2) != 0)? 0 : var2,
+            ((var7 & 4) != 0)? 50 : var3,
+            ((var7 & 8) != 0)? 100 : var4,
+            ((var7 & 16) != 0) ? Duration.ofSeconds(1L) : var5,
+            ((var7 & 32) != 0) ? defaultMasses : var6
+        );
+    }
+
+    public FalconNineAnimator() {
+        this(0, 0, 0, 0, (Duration)null, (EnumMap)null, 63, (Object)null);
+    }
+
+    public FalconNineAnimator(int x, int y, int width, int height,  Duration dT) {
+        this(x, y, width, height, dT, defaultMasses);
+    }
+
+    public static enum Masses {
+        PHASE_1_STARTING,
+        PHASE_1_ENDING,
+        PHASE_1_FUEL,
+        PHASE_1_THRUST,
+        PHASE_1_ENDING_TIME,
+        PHASE_2_STARTING,
+        PHASE_2_ENDING,
+        PHASE_2_FUEL,
+        PHASE_2_THRUST,
+        PHASE_2_ENDING_TIME;
+    }
+
+    private static class Companion {
+
+        public EnumMap getDefaultMasses() {
+            return FalconNineAnimator.defaultMasses;
+        }
+
+        public double getDensity(double alt) {
+            double var3 = 2.718281828459045D;
+            double var5 = -1.14616E-4D * alt;
+            return 1.2787D * Math.pow(var3, var5);
+        }
+
+        private Companion() {
+        }
+
+        // $FF: synthetic method
+        public Companion(Object $constructor_marker) {
+            this();
+        }
+    }
+}

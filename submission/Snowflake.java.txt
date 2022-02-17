@@ -1,0 +1,60 @@
+
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Polygon;
+import java.util.Random;
+
+public final class Snowflake implements Drawable {
+    private double x;
+    private double y;
+    private static final Random random = new Random();
+
+    public static final Snowflake.Companion Companion = new Snowflake.Companion((Object)null);
+
+    public final double getX() {
+        return this.x;
+    }
+
+    public final void setX(double var1) {
+        this.x = var1;
+    }
+
+    public final double getY() {
+        return this.y;
+    }
+
+    public final void setY(double var1) {
+        this.y = var1;
+    }
+
+    public void draw( Graphics goon) {
+        int x = (int)this.x;
+        int y = (int)this.y;
+        int left = x - 3;
+        int right = x + 3;
+        int up = y + 3;
+        int down = y - 3;
+        int color = random.nextInt(55) + 200;
+        goon.setColor(new Color(color, color, color));
+        goon.drawLine(left, y, right, y);
+        goon.drawLine(x, up, x, down);
+        goon.drawLine(left, up, right, down);
+        goon.drawLine(right, up, left, down);
+        goon.drawPolygon(new Polygon(new int[]{x - 1, x + 1, x, x, x - 1, x + 1, x - 1, x + 1}, new int[]{y, y, y - 1, y + 1, y - 1, y + 1, y + 1, y - 1}, 8));
+    }
+
+    public Snowflake(int x, int y) {
+        this.x = (double)x;
+        this.y = (double)y;
+    }
+
+    public static final class Companion {
+        private Companion() {
+        }
+
+        // $FF: synthetic method
+        public Companion(Object $constructor_marker) {
+            this();
+        }
+    }
+}

@@ -1,0 +1,129 @@
+
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+import java.time.Duration;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Random;
+
+public final class FalconNine extends Animation {
+    public static final int WIDTH = 800;
+    public static final int HEIGHT = 800;
+    public static final int FPS = 10;
+
+    private static final Random random = new Random();
+
+    private static final Duration DT;
+
+    public static final FalconNine.Companion Companion = new FalconNine.Companion((Object)null);
+
+    protected void setUp() {
+        this.bufferedImage = new BufferedImage(800, 800, 1);
+        BufferedImage var10001 = this.bufferedImage;
+        this.goon = var10001.getGraphics();
+        this.setShownName("Falcon 9");
+        this.params = new HashMap<String, Object>(){{
+            put("HEIGHT", 800D);
+            put("WIDTH", 800D);
+            put("dummy", "dummy");
+        }};
+        ArrayList<Animator> animatorsAL = new ArrayList<>(){{
+            add(new FalconNineAnimator(400, 800, 6, 25, DT));
+        }};
+
+        int var2 = 0;
+
+        for(byte var3 = 99; var2 <= var3; ++var2) {
+            animatorsAL.add(new SnowflakeAnimator(random.nextInt(800), random.nextInt(400), "dummy", "dummy"));
+        }
+
+        Collection $this$toTypedArray$iv = (Collection)animatorsAL;
+        Boolean $i$f$toTypedArray = false;
+        Object[] var5 = $this$toTypedArray$iv.toArray(new Animator[0]);
+        if (var5 == null) {
+            throw new NullPointerException("null cannot be cast to non-null type kotlin.Array<T of kotlin.collections.ArraysKt__ArraysJVMKt.toTypedArray>");
+        } else {
+            this.animators = (Animator[])var5;
+        }
+    }
+
+    protected void tick() {
+        Graphics var10000 = this.goon;
+        var10000.setColor(Color.BLACK);
+        this.goon.fillRect(0, 0, 800, 800);
+        Animator[] var3 = this.animators;
+        int var4 = var3.length;
+
+        for(int var2 = 0; var2 < var4; ++var2) {
+            Animator animator = var3[var2];
+            animator.getDrawable(this.params).draw(this.goon);
+        }
+
+        var10000 = this.goon;
+        var10000.setColor(Color.WHITE);
+        var10000 = this.goon;
+        var10000.setFont(new Font("Comic Sans MS", 1, 16));
+        var10000 = this.goon;
+        StringBuilder var10001 = (new StringBuilder()).append("Time: ");
+        Animator var10002 = this.animators[0];
+        if (var10002 == null) {
+            throw new NullPointerException("null cannot be cast to non-null type com.gyoge.itcsgraphics.animators.FalconNineAnimator");
+        } else {
+            var10000.drawString(var10001.append((double)((FalconNineAnimator)var10002).getTime().toNanos() / 1.0E9D).append(" second(s)").toString(), 10, 40);
+            Animator var6 = this.animators[0];
+            if (var6 == null) {
+                throw new NullPointerException("null cannot be cast to non-null type com.gyoge.itcsgraphics.animators.FalconNineAnimator");
+            } else {
+                FalconNineAnimator animator = (FalconNineAnimator)var6;
+                this.goon.drawString("Phase: " + animator.getStage(), 10, 60);
+                this.goon.drawString("Altitude: " + animator.getAlt() + " m", 10, 80);
+                this.goon.drawString("Velocity: " + animator.getVel() + " m/s", 10, 100);
+                this.goon.drawString("Acceleration: " + animator.getAccel() + " m/s^2", 10, 120);
+                this.goon.drawString("Mass: " + animator.getMass() + " kg", 10, 140);
+            }
+        }
+    }
+
+    public FalconNine() {
+        this.setUp();
+        (new TimerListener()).startTimer(10);
+    }
+
+    static {
+        Duration var10000 = ChronoUnit.MILLIS.getDuration().multipliedBy(500L);
+        DT = var10000;
+    }
+
+    public static final void main( String[] args) {
+        Companion.main(args);
+    }
+
+    public static final class Companion {
+
+        public final Random getRandom() {
+            return FalconNine.random;
+        }
+
+
+        public final Duration getDT() {
+            return FalconNine.DT;
+        }
+
+        public final void main( String[] args) {
+            Animation animation = (Animation)(new FalconNine());
+            Animation.startUp(animation, 800, 800);
+        }
+
+        private Companion() {
+        }
+
+        // $FF: synthetic method
+        public Companion(Object $constructor_marker) {
+            this();
+        }
+    }
+}

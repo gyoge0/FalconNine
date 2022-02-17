@@ -1,0 +1,52 @@
+
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.image.ImageObserver;
+import javax.swing.ImageIcon;
+
+public class Spaceship implements Drawable {
+    private double x;
+    private double y;
+    private int width = 50;
+    private int height = 100;
+
+    public double getX() {
+        return this.x;
+    }
+
+    public void setX(double var1) {
+        this.x = var1;
+    }
+
+    public double getY() {
+        return this.y;
+    }
+
+    public void setY(double var1) {
+        this.y = var1;
+    }
+
+    public int getWidth() {
+        return this.width;
+    }
+
+    public void setWidth(int var1) {
+        this.width = var1;
+    }
+
+    public int getHeight() {
+        return this.height;
+    }
+
+    public void setHeight(int var1) {
+        this.height = var1;
+    }
+
+    public void draw(Graphics goon) {
+        goon.setColor(new Color(186, 181, 169));
+        goon.fillRect((int)this.x, (int)this.y, this.width, this.height);
+        goon.setColor(new Color(255, 255, 255));
+        goon.fillPolygon(new int[]{(int)this.x, (int)this.x + this.width / 2, (int)this.x + this.width}, new int[]{(int)this.y, (int)this.y - this.height / 2, (int)this.y}, 3);
+        goon.drawImage((new ImageIcon("src/main/resources/images/rock.jpg")).getImage(), (int)this.x + 5, (int)this.y + 5, this.width - 10, this.height - 10, (ImageObserver)null);
+    }
+}
