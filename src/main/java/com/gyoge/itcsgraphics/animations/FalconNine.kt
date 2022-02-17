@@ -91,11 +91,11 @@ class FalconNine : Animation() {
 
         const val HEIGHT = 800
 
-        const val FPS = 60
+        const val FPS = 10
 
         val random = Random()
 
-        val DT: Duration = ChronoUnit.MILLIS.duration.multipliedBy(100L)
+        val DT: Duration = ChronoUnit.MILLIS.duration.multipliedBy(500L)
 
         @JvmStatic
         fun main(args: Array<String>) {

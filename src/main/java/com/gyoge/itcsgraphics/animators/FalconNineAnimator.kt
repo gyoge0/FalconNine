@@ -132,7 +132,7 @@ class FalconNineAnimator(
         time = time.plus(dT)
 
         drawable.y =
-            params["HEIGHT"] as Int - alt * params["HEIGHT"] as Int / 300000.0 - drawable.height
+            params["HEIGHT"] as Int - alt * params["HEIGHT"] as Int / 400000.0 - drawable.height
 
         return drawable
     }
