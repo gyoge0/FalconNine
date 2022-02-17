@@ -4,6 +4,7 @@ import com.gyoge.itcsgraphics.drawables.Drawable
 import com.gyoge.itcsgraphics.drawables.Spaceship
 import java.time.Duration
 import java.time.temporal.ChronoUnit
+import java.util.*
 import kotlin.math.pow
 
 /**
@@ -24,7 +25,7 @@ class FalconNineAnimator(
     /** Change in time for each frame. */
     private val dT: Duration = ChronoUnit.SECONDS.duration,
     /** Different masses. */
-    private val masses: HashMap<Masses, Double> = defaultMasses
+    private val values: EnumMap<Masses, Double> = defaultMasses
 ) : Animator {
 
     constructor(x: Int, y: Int, width: Int, height: Int, dT: Duration) : this(
@@ -42,10 +43,12 @@ class FalconNineAnimator(
         PHASE_1_ENDING,
         PHASE_1_FUEL,
         PHASE_1_THRUST,
+        PHASE_1_ENDING_TIME,
         PHASE_2_STARTING,
         PHASE_2_ENDING,
         PHASE_2_FUEL,
         PHASE_2_THRUST,
+        PHASE_2_ENDING_TIME,
     }
 
     private val drawable = Spaceship()
@@ -82,14 +85,14 @@ class FalconNineAnimator(
     /** Get the current stage based off of the time. */
     fun getStage(): Int {
         // return 2 if time.seconds is greater than 162, otherwise return 1
-        return if (time.seconds > 162) 2 else 1
+        return if (time.seconds > values[Masses.PHASE_1_ENDING_TIME]!!) 2 else 1
 
     }
 
     /** Do the math and then return the drawable. */
     override fun getDrawable(params: HashMap<String, Any>): Drawable {
         val sec = (time.seconds)
-        if (time.seconds > 397) {
+        if (time.seconds > values[Masses.PHASE_2_ENDING_TIME]!!) {
             return drawable
         }
 
@@ -98,15 +101,15 @@ class FalconNineAnimator(
 
         when (getStage()) {
             1 -> {
-                val starting = masses[Masses.PHASE_1_STARTING] ?: 541300.0
-                fuel = masses[Masses.PHASE_1_FUEL] ?: 398900.0
-                thrust = masses[Masses.PHASE_1_THRUST] ?: 6806000.0
+                val starting = values[Masses.PHASE_1_STARTING] ?: 541300.0
+                fuel = values[Masses.PHASE_1_FUEL] ?: 398900.0
+                thrust = values[Masses.PHASE_1_THRUST] ?: 6806000.0
                 mass = starting - (fuel / 162 * sec)
             }
             2 -> {
-                val starting = masses[Masses.PHASE_2_STARTING] ?: 96570.0
-                fuel = masses[Masses.PHASE_2_FUEL] ?: 92670.0
-                thrust = masses[Masses.PHASE_2_THRUST] ?: 934000.0
+                val starting = values[Masses.PHASE_2_STARTING] ?: 96570.0
+                fuel = values[Masses.PHASE_2_FUEL] ?: 92670.0
+                thrust = values[Masses.PHASE_2_THRUST] ?: 934000.0
                 mass = starting - ((fuel / (397 - 162)) * (sec.toDouble() - 162))
             }
         }
@@ -137,16 +140,22 @@ class FalconNineAnimator(
 
     private companion object {
 
-        val defaultMasses: HashMap<Masses, Double> = hashMapOf(
-            Masses.PHASE_1_STARTING to 541300.0,
-            Masses.PHASE_1_ENDING to 142400.0,
-            Masses.PHASE_1_FUEL to 398900.0,
-            Masses.PHASE_1_THRUST to 6806000.0,
-            Masses.PHASE_2_STARTING to 96570.0,
-            Masses.PHASE_2_ENDING to 3900.0,
-            Masses.PHASE_2_FUEL to 92670.0,
-            Masses.PHASE_2_FUEL to 934000.0,
-        )
+        val defaultMasses: EnumMap<Masses, Double> = object : EnumMap<Masses, Double>(
+            Masses::class.java
+        ) {
+            init {
+                put(Masses.PHASE_1_STARTING, 541300.0)
+                put(Masses.PHASE_1_ENDING, 142400.0)
+                put(Masses.PHASE_1_FUEL, 398900.0)
+                put(Masses.PHASE_1_THRUST, 6806000.0)
+                put(Masses.PHASE_1_ENDING_TIME, 162.0)
+                put(Masses.PHASE_2_STARTING, 96570.0)
+                put(Masses.PHASE_2_ENDING, 3900.0)
+                put(Masses.PHASE_2_FUEL, 92670.0)
+                put(Masses.PHASE_2_FUEL, 934000.0)
+                put(Masses.PHASE_2_ENDING_TIME, 397.0)
+            }
+        }
 
         /**
          * Calculates the air density at a given altitude.
@@ -160,7 +169,6 @@ class FalconNineAnimator(
         fun getDensity(alt: Double): Double {
             return 1.2787 * Math.E.pow(-0.000114616 * alt)
         }
-
 
     }
 }

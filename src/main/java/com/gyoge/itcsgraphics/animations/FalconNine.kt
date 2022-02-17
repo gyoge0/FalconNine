@@ -66,7 +66,7 @@ class FalconNine : Animation() {
         goon.color = Color.WHITE
         goon.font = Font("Comic Sans MS", Font.BOLD, 16)
         goon.drawString(
-            "Delta time: ${
+            "Time: ${
                 (animators[0] as FalconNineAnimator)
                     .time
                     .toNanos().toDouble()
@@ -95,7 +95,7 @@ class FalconNine : Animation() {
 
         val random = Random()
 
-        val DT: Duration = ChronoUnit.SECONDS.duration
+        val DT: Duration = ChronoUnit.MILLIS.duration.multipliedBy(100L)
 
         @JvmStatic
         fun main(args: Array<String>) {
