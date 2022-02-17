@@ -1,0 +1,10 @@
+$dokka.format:javadoc-v1
+$dokka.linkExtension:html
+$dokka.location:com.gyoge.itcsgraphics.animations/FalconNine.Companion///PointingToDeclaration/com/gyoge/itcsgraphics/animations/FalconNine.Companion.html
+$dokka.location:com.gyoge.itcsgraphics.animators/FalconNineAnimator.Masses///PointingToDeclaration/com/gyoge/itcsgraphics/animators/FalconNineAnimator.Masses.html
+$dokka.location:com.gyoge.itcsgraphics.drawables/Snowflake.Companion///PointingToDeclaration/com/gyoge/itcsgraphics/drawables/Snowflake.Companion.html
+com.gyoge.itcsgraphics.animations
+com.gyoge.itcsgraphics.animators
+com.gyoge.itcsgraphics.drawables
+com.gyoge.itcsgraphics.testers
+
