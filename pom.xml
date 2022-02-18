@@ -47,13 +47,8 @@
           </execution>
         </executions>
         <configuration>
-          <documentedVisibilities>
-            <visibility>PUBLIC</visibility>
-            <visibility>PRIVATE</visibility>
-            <visibility>PROTECTED</visibility>
-            <visibility>INTERNAL</visibility>
-            <visibility>PACKAGE</visibility>
-          </documentedVisibilities>
+          <outputDir>docs/</outputDir>
+          <includeNonPublic>true</includeNonPublic>
         </configuration>
       </plugin>
 
