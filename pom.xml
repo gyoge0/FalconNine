@@ -46,6 +46,15 @@
             </goals>
           </execution>
         </executions>
+        <configuration>
+          <documentedVisibilities>
+            <visibility>PUBLIC</visibility>
+            <visibility>PRIVATE</visibility>
+            <visibility>PROTECTED</visibility>
+            <visibility>INTERNAL</visibility>
+            <visibility>PACKAGE</visibility>
+          </documentedVisibilities>
+        </configuration>
       </plugin>
 
     </plugins>
