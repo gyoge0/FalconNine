@@ -71,7 +71,7 @@ mvn clean compile exec:java -Dexec.mainClass="com.gyoge.itcsgraphics.testers.Fal
    ```bash
    py src/main/python/analysis.py
    ```
-    - Unix
+    - Bash
    ```bash
    python3 src/main/python/analysis.py
    ```
