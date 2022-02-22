@@ -168,4 +168,3 @@ replay_pid*
 *.log
 
 # actual gitignore files
-CSVs/
