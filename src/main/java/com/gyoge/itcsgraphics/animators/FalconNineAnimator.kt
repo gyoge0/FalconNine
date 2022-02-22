@@ -114,11 +114,6 @@ class FalconNineAnimator(
             }
         }
 
-
-        if (sec.toDouble() > 162) {
-            mass = fuel - ((fuel / (397 - 162)) * (sec.toDouble() - 162))
-        }
-
         val fG = mass * 6.67e-11 * 5.978e24 / ((6.38e6 + alt).pow(2.0))
 
         val fD = (0.5) * 0.295 * frontalArea * getDensity(alt) * vel.pow(2.0)
@@ -152,7 +147,7 @@ class FalconNineAnimator(
                 put(Masses.PHASE_2_STARTING, 96570.0)
                 put(Masses.PHASE_2_ENDING, 3900.0)
                 put(Masses.PHASE_2_FUEL, 92670.0)
-                put(Masses.PHASE_2_FUEL, 934000.0)
+                put(Masses.PHASE_2_THRUST, 934000.0)
                 put(Masses.PHASE_2_ENDING_TIME, 397.0)
             }
         }
