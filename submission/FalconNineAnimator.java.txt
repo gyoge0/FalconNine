@@ -31,7 +31,7 @@ public class FalconNineAnimator implements Animator {
             this.put((Enum)FalconNineAnimator.Masses.PHASE_2_STARTING, 96570.0D);
             this.put((Enum)FalconNineAnimator.Masses.PHASE_2_ENDING, 3900.0D);
             this.put((Enum)FalconNineAnimator.Masses.PHASE_2_FUEL, 92670.0D);
-            this.put((Enum)FalconNineAnimator.Masses.PHASE_2_FUEL, 934000.0D);
+            this.put((Enum)FalconNineAnimator.Masses.PHASE_2_THRUST, 934000.0D);
             this.put((Enum)FalconNineAnimator.Masses.PHASE_2_ENDING_TIME, 397.0D);
         }
 
@@ -231,10 +231,6 @@ public class FalconNineAnimator implements Animator {
                     var16 = (Double)this.values.get(FalconNineAnimator.Masses.PHASE_2_THRUST);
                     thrust = var16 != null ? var16 : 934000.0D;
                     this.mass = fG - fuel / (double)235 * ((double)sec - (double)162);
-            }
-
-            if ((double)sec > (double)162) {
-                this.mass = fuel - fuel / (double)235 * ((double)sec - (double)162);
             }
 
             var10000 = this.mass * 6.67E-11D * 5.978E24D;
